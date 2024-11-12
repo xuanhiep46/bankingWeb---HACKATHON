@@ -111,7 +111,7 @@ def apiVerify(request):
         try:
             # Xác nhận mã xác thực từ Cognito
             response = cognito_client.confirm_sign_up(
-                ClientId='5tddikcdaan8e5e365e9djhe16',  # Thay bằng ClientId của bạn
+                CLIENT_ID = os.environ.get('COGNITO_CLIENT_ID'),  # Thay bằng ClientId của bạn
                 Username=username,
                 ConfirmationCode=verification_code
             )
