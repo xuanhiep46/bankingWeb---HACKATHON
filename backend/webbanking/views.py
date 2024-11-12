@@ -3,6 +3,7 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import boto3
+import os
 
 def home(request):
     return render(request, 'index.html')
@@ -16,9 +17,9 @@ def interface(request):
 # Khởi tạo client AWS Cognito
 cognito_client = boto3.client(
     'cognito-idp',
-    region_name='us-east-1',  # Ví dụ: 'us-west-2'
-    aws_access_key_id='AKIASE5KQ626SKSHSB6B',  # Đặt khóa truy cập AWS của bạn
-    aws_secret_access_key='8R1e667gXjiQZuRWtfXdXLN5OdMbM+gMbFkbHOcD'  # Đặt khóa bí mật AWS của bạn
+    region_name=os.environ.get('COGNITO_REGION'),
+    aws_access_key_id=os.environ.get('AWS_ACCESS_KEY_ID'),
+    aws_secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY')
 )
 
 @csrf_exempt
@@ -32,7 +33,7 @@ def apiLogin(request):
             # Xác thực người dùng với AWS Cognito
             response = cognito_client.initiate_auth(
                 # UserPoolId='us-east-1_EGRyDFvsq',  # ID của User Pool
-                ClientId='5tddikcdaan8e5e365e9djhe16',  # ID của App Client
+                CLIENT_ID = os.environ.get('COGNITO_CLIENT_ID'),  # ID của App Client
                 AuthFlow='USER_PASSWORD_AUTH',
                 AuthParameters={
                     'USERNAME': username,
@@ -70,7 +71,7 @@ def apiSignup(request):
         try:
             # Gọi AWS Cognito API để đăng ký người dùng mới
             response = cognito_client.sign_up(
-                ClientId='5tddikcdaan8e5e365e9djhe16',  # ClientId của App Client trong Cognito
+                CLIENT_ID = os.environ.get('COGNITO_CLIENT_ID'),  # ClientId của App Client trong Cognito
                 Username=username,
                 Password=password,
                 UserAttributes=[
