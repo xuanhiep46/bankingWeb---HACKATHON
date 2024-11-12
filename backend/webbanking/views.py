@@ -3,6 +3,7 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import boto3
+from dotenv import load_dotenv
 import os
 
 def home(request):
@@ -15,6 +16,7 @@ def interface(request):
     return render(request, 'interface.html')
 
 # Khởi tạo client AWS Cognito
+load_dotenv()
 cognito_client = boto3.client(
     'cognito-idp',
     region_name=os.environ.get('COGNITO_REGION'),
