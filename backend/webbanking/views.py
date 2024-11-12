@@ -21,6 +21,7 @@ cognito_client = boto3.client(
     aws_access_key_id=os.environ.get('AWS_ACCESS_KEY_ID'),
     aws_secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY')
 )
+CLIENT_ID = os.environ.get('COGNITO_CLIENT_ID')
 
 @csrf_exempt
 def apiLogin(request):
@@ -33,7 +34,7 @@ def apiLogin(request):
             # Xác thực người dùng với AWS Cognito
             response = cognito_client.initiate_auth(
                 # UserPoolId='us-east-1_EGRyDFvsq',  # ID của User Pool
-                CLIENT_ID = os.environ.get('COGNITO_CLIENT_ID'),  # ID của App Client
+                ClientId=CLIENT_ID,  # ID của App Client
                 AuthFlow='USER_PASSWORD_AUTH',
                 AuthParameters={
                     'USERNAME': username,
@@ -71,7 +72,7 @@ def apiSignup(request):
         try:
             # Gọi AWS Cognito API để đăng ký người dùng mới
             response = cognito_client.sign_up(
-                CLIENT_ID = os.environ.get('COGNITO_CLIENT_ID'),  # ClientId của App Client trong Cognito
+                ClientId=CLIENT_ID,  # ClientId của App Client trong Cognito
                 Username=username,
                 Password=password,
                 UserAttributes=[
@@ -111,7 +112,7 @@ def apiVerify(request):
         try:
             # Xác nhận mã xác thực từ Cognito
             response = cognito_client.confirm_sign_up(
-                CLIENT_ID = os.environ.get('COGNITO_CLIENT_ID'),  # Thay bằng ClientId của bạn
+                ClientId=CLIENT_ID,  # Thay bằng ClientId của bạn
                 Username=username,
                 ConfirmationCode=verification_code
             )
