@@ -136,6 +136,3 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
-
-env = environ.Env()
-environ.Env.read_env()
