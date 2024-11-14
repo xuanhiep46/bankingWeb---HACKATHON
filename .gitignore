@@ -2,5 +2,5 @@
 ./backend/.env
 ./backend/.idea/*
 .idea/*
-__pycache__/*
+__pycache__/
 ./backend/__pycache__/*
