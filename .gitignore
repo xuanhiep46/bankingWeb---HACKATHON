@@ -1,6 +1,5 @@
 .env
 ./backend/.env
-./backend/.idea/*
-.idea/*
-__pycache__/
-./backend/__pycache__/*
+
+**/.idea/
+**/__pycache__/
